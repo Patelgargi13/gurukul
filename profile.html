@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gurukul — Profile</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--red:#e50914;--bg:#141414;--card:#1f1f1f;--border:#2a2a2a;--gold:#ffd700}
+html,body{background:var(--bg);color:#fff;font-family:'Inter',sans-serif;min-height:100vh}
+
+/* ══ NAV ══ */
+.nav{display:flex;align-items:center;gap:28px;padding:0 60px;height:68px;background:rgba(0,0,0,.95);position:sticky;top:0;z-index:100;border-bottom:1px solid var(--border)}
+.nlogo{font-family:'Bebas Neue',cursive;font-size:30px;color:var(--red);letter-spacing:2px;text-decoration:none}
+.nlinks{display:flex;gap:18px;list-style:none}
+.nlinks a{color:#e5e5e5;text-decoration:none;font-size:13px;transition:color .15s}.nlinks a:hover{color:#fff}
+.nlinks .act a{color:#fff;font-weight:700}
+.nav-av{margin-left:auto;width:32px;height:32px;border-radius:4px;background:linear-gradient(135deg,var(--red),#ff6b6b);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;cursor:pointer}
+
+/* ══ PROFILE HERO ══ */
+.profile-banner{height:200px;background:linear-gradient(135deg,#0a0a0a,#1a0505,#0a0a1a,#050a1a);position:relative;overflow:hidden}
+.banner-pattern{position:absolute;inset:0;opacity:.15;background-image:repeating-linear-gradient(45deg,var(--red) 0,var(--red) 1px,transparent 0,transparent 50%);background-size:20px 20px}
+.banner-glow{position:absolute;bottom:-60px;left:50%;transform:translateX(-50%);width:400px;height:120px;background:radial-gradient(ellipse,rgba(229,9,20,.25) 0%,transparent 70%)}
+.edit-banner{position:absolute;top:16px;right:16px;padding:7px 14px;background:rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.2);border-radius:4px;color:#ccc;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+.edit-banner:hover{background:rgba(255,255,255,.1);color:#fff}
+
+.profile-info{padding:0 60px 0;position:relative}
+.avatar-wrap{position:absolute;top:-52px;left:60px}
+.avatar{width:104px;height:104px;border-radius:50%;background:linear-gradient(135deg,var(--red),#ff8888);display:flex;align-items:center;justify-content:center;font-size:40px;font-weight:800;border:4px solid var(--bg);position:relative}
+.avatar-edit{position:absolute;bottom:2px;right:2px;width:26px;height:26px;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px;border:2px solid var(--bg)}
+.profile-meta{padding-top:64px;display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-bottom:28px;border-bottom:1px solid var(--border)}
+.profile-left{}
+.profile-name{font-family:'Bebas Neue',cursive;font-size:36px;letter-spacing:1px;margin-bottom:4px;display:flex;align-items:center;gap:10px}
+.verified{font-size:18px}
+.profile-handle{font-size:14px;color:#777;margin-bottom:10px}
+.profile-bio{font-size:14px;color:#ccc;max-width:420px;line-height:1.65;margin-bottom:12px}
+.profile-tags{display:flex;gap:8px;flex-wrap:wrap}
+.ptag{padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600;display:flex;align-items:center;gap:5px}
+.ptag.school{background:rgba(84,185,197,.12);color:#54b9c5;border:1px solid rgba(84,185,197,.25)}
+.ptag.board{background:rgba(70,211,105,.12);color:#46d369;border:1px solid rgba(70,211,105,.25)}
+.ptag.city{background:rgba(255,170,0,.12);color:#ffaa00;border:1px solid rgba(255,170,0,.25)}
+.ptag.rank{background:rgba(229,9,20,.12);color:#ff6b6b;border:1px solid rgba(229,9,20,.25)}
+
+.profile-right{display:flex;gap:10px;flex-shrink:0}
+.pbtn{padding:10px 20px;border-radius:4px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s;border:none}
+.pbtn.primary{background:#fff;color:#000}.pbtn.primary:hover{background:rgba(255,255,255,.85)}
+.pbtn.secondary{background:rgba(255,255,255,.08);color:#fff;border:1px solid var(--border)}.pbtn.secondary:hover{background:rgba(255,255,255,.13)}
+
+/* ══ QUICK STATS ══ */
+.qstats{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);border-top:1px solid var(--border)}
+.qs{background:var(--bg);padding:20px;text-align:center}
+.qs-num{font-family:'Bebas Neue',cursive;font-size:32px;line-height:1;margin-bottom:4px}
+.qs-label{font-size:11px;color:#666;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.qs-sub{font-size:10px;color:#444;margin-top:2px}
+
+/* ══ LAYOUT ══ */
+.body{display:grid;grid-template-columns:1fr 320px;gap:0;padding:32px 60px 80px;gap:28px}
+
+/* ══ TABS ══ */
+.tabs{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:24px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:11px 18px;font-size:13px;font-weight:600;color:#666;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;transition:all .2s}
+.tab:hover{color:#fff}.tab.on{color:#fff;border-bottom-color:#fff}
+
+/* ══ OVERVIEW TAB ══ */
+.sec{margin-bottom:28px}
+.sec-title{font-size:16px;font-weight:800;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+
+/* subject progress */
+.subj-prog{display:flex;flex-direction:column;gap:12px}
+.sp-row{display:flex;align-items:center;gap:12px}
+.sp-icon{font-size:20px;width:28px;text-align:center;flex-shrink:0}
+.sp-label{font-size:13px;font-weight:600;width:130px;flex-shrink:0}
+.sp-bar{flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+.sp-fill{height:100%;border-radius:3px;transition:width .6s ease}
+.sp-pct{font-size:12px;font-weight:700;width:36px;text-align:right;flex-shrink:0}
+
+/* activity heatmap */
+.heatmap{display:grid;grid-template-columns:repeat(26,1fr);gap:3px;margin-bottom:8px}
+.hm-cell{aspect-ratio:1;border-radius:2px;background:var(--border);transition:background .15s;cursor:pointer;position:relative}
+.hm-cell:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100%+4px);left:50%;transform:translateX(-50%);background:#fff;color:#000;font-size:10px;font-weight:700;padding:3px 7px;border-radius:3px;white-space:nowrap;z-index:10;pointer-events:none}
+.hm-cell.l1{background:rgba(229,9,20,.25)}
+.hm-cell.l2{background:rgba(229,9,20,.5)}
+.hm-cell.l3{background:rgba(229,9,20,.75)}
+.hm-cell.l4{background:var(--red)}
+.hm-months{display:flex;justify-content:space-between;font-size:10px;color:#555;margin-bottom:4px}
+.hm-legend{display:flex;align-items:center;gap:6px;font-size:10px;color:#555;margin-top:6px;justify-content:flex-end}
+.hm-leg-cell{width:10px;height:10px;border-radius:2px}
+
+/* recent activity */
+.act-list{display:flex;flex-direction:column;gap:10px}
+.act-item{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--card);border-radius:8px;border:1px solid var(--border)}
+.act-icon{font-size:22px;flex-shrink:0}
+.act-info{flex:1}
+.act-title{font-size:13px;font-weight:600;margin-bottom:2px}
+.act-meta{font-size:11px;color:#666}
+.act-badge{font-size:11px;font-weight:700;padding:3px 8px;border-radius:10px;flex-shrink:0}
+.ab-green{background:rgba(70,211,105,.15);color:#46d369}
+.ab-red{background:rgba(229,9,20,.15);color:#ff6b6b}
+.ab-blue{background:rgba(84,185,197,.15);color:#54b9c5}
+.ab-gold{background:rgba(255,215,0,.15);color:var(--gold)}
+
+/* ══ ACHIEVEMENTS ══ */
+.achievements-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.ach{background:var(--card);border-radius:10px;padding:16px;text-align:center;border:1px solid var(--border);transition:transform .2s,box-shadow .2s;cursor:default}
+.ach:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,.5)}
+.ach.locked{opacity:.35;filter:grayscale(1)}
+.ach-icon{font-size:32px;margin-bottom:8px;display:block}
+.ach-title{font-size:12px;font-weight:700;margin-bottom:4px}
+.ach-desc{font-size:10px;color:#666;line-height:1.5}
+.ach-date{font-size:9px;color:#555;margin-top:4px}
+.ach-ring{display:inline-flex;align-items:center;justify-content:center;width:54px;height:54px;border-radius:50%;margin-bottom:8px;border:2px solid transparent}
+.ach-ring.gold{border-color:var(--gold);background:rgba(255,215,0,.08)}
+.ach-ring.silver{border-color:#c0c0c0;background:rgba(192,192,192,.08)}
+.ach-ring.bronze{border-color:#cd7f32;background:rgba(205,127,50,.08)}
+.ach-ring.locked{border-color:#333;background:rgba(255,255,255,.03)}
+
+/* ══ RIGHT SIDEBAR ══ */
+.sidebar{}
+
+/* streak card */
+.streak-card{background:linear-gradient(135deg,rgba(229,9,20,.15),rgba(229,9,20,.05));border:1px solid rgba(229,9,20,.25);border-radius:10px;padding:20px;margin-bottom:16px;text-align:center}
+.streak-num{font-family:'Bebas Neue',cursive;font-size:52px;color:var(--red);line-height:1}
+.streak-label{font-size:13px;color:#888;margin-bottom:12px}
+.streak-days{display:flex;justify-content:center;gap:6px;margin-top:10px}
+.sd{width:30px;height:30px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#555;flex-direction:column;gap:1px}
+.sd.done{background:var(--red);color:#fff}
+.sd.today{background:rgba(229,9,20,.3);color:#fff;border:2px solid var(--red)}
+.sd-day{font-size:8px;font-weight:600}
+
+/* rank card */
+.rank-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:16px}
+.rc-title{font-size:13px;font-weight:700;color:#888;margin-bottom:14px;text-transform:uppercase;letter-spacing:.5px}
+.rc-rank{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.rc-rank-num{font-family:'Bebas Neue',cursive;font-size:38px;color:var(--red);line-height:1;min-width:54px}
+.rc-info{flex:1}
+.rc-info p{font-size:13px;font-weight:600;margin-bottom:3px}
+.rc-info span{font-size:11px;color:#666}
+.rc-prog{height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin-top:8px}
+.rc-pfill{height:100%;background:linear-gradient(90deg,var(--red),#ff6b6b);border-radius:2px}
+.rc-next{font-size:11px;color:#666;margin-top:6px;text-align:right}
+
+/* goals */
+.goals-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:16px}
+.goal-item{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.goal-item:last-child{margin-bottom:0}
+.goal-icon{font-size:18px;flex-shrink:0}
+.goal-info{flex:1}
+.goal-label{font-size:12px;font-weight:600;margin-bottom:4px;display:flex;justify-content:space-between}
+.goal-label span:last-child{color:#46d369;font-size:11px}
+.goal-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.goal-fill{height:100%;border-radius:2px;transition:width .5s}
+
+/* ══ EDIT MODAL ══ */
+#editModal{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:9000;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
+#editModal.open{display:flex}
+.em-box{background:#181818;border-radius:12px;width:100%;max-width:500px;box-shadow:0 0 60px rgba(0,0,0,.9);border:1px solid var(--border)}
+.em-header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.em-header h3{font-size:18px;font-weight:800}
+.em-close{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.08);border:none;color:#fff;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center}
+.em-close:hover{background:rgba(255,255,255,.15)}
+.em-body{padding:24px}
+.em-field{margin-bottom:16px}
+.em-field label{display:block;font-size:12px;font-weight:700;color:#888;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+.em-field input,.em-field textarea,.em-field select{width:100%;padding:12px 14px;background:#252525;border:1px solid var(--border);border-radius:6px;color:#fff;font-size:14px;outline:none;transition:border-color .2s;font-family:inherit}
+.em-field input:focus,.em-field textarea:focus,.em-field select:focus{border-color:var(--red)}
+.em-field textarea{resize:vertical;min-height:80px;line-height:1.5}
+.em-footer{padding:16px 24px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end}
+.em-btn{padding:10px 22px;border-radius:4px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;border:none;transition:all .15s}
+.em-btn.save{background:var(--red);color:#fff}.em-btn.save:hover{background:#f40612}
+.em-btn.cancel{background:rgba(255,255,255,.08);color:#fff;border:1px solid var(--border)}.em-btn.cancel:hover{background:rgba(255,255,255,.13)}
+
+#toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(20px);background:#fff;color:#000;padding:11px 22px;border-radius:4px;font-size:14px;font-weight:700;z-index:9999;opacity:0;pointer-events:none;transition:all .3s;box-shadow:0 4px 24px rgba(0,0,0,.5)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media(max-width:900px){
+  .body{grid-template-columns:1fr;padding:20px}
+  .nav{padding:0 18px}.nlinks{display:none}
+  .profile-info{padding:0 18px}
+  .avatar-wrap{left:18px}
+  .qstats{grid-template-columns:repeat(3,1fr)}
+  .achievements-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:600px){
+  .qstats{grid-template-columns:repeat(2,1fr)}
+  .profile-right{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a class="nlogo" href="index.html">GURUKUL</a>
+  <ul class="nlinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="subjects.html">Subjects</a></li>
+    <li><a href="mylist.html">My List</a></li>
+    <li><a href="tests.html">Tests</a></li>
+    <li><a href="leaderboard.html">Leaderboard</a></li>
+  </ul>
+  <div class="nav-av" onclick="openEdit()">S</div>
+</nav>
+
+<!-- BANNER -->
+<div class="profile-banner">
+  <div class="banner-pattern"></div>
+  <div class="banner-glow"></div>
+  <button class="edit-banner" onclick="openEdit()">✏️ Edit Profile</button>
+</div>
+
+<!-- PROFILE INFO -->
+<div class="profile-info">
+  <div class="avatar-wrap">
+    <div class="avatar" id="avatarEl">S
+      <div class="avatar-edit" onclick="openEdit()">✏️</div>
+    </div>
+  </div>
+  <div class="profile-meta">
+    <div class="profile-left">
+      <div class="profile-name"><span id="profileName">Patelgargi13</span><span class="verified">✅</span></div>
+      <div class="profile-handle" id="profileHandle">@patelgargi13 · Class 12 Student</div>
+      <div class="profile-bio" id="profileBio">Passionate about Physics and Mathematics. Aiming for IIT JEE 2025. 📚 Study hard, dream big!</div>
+      <div class="profile-tags">
+        <span class="ptag school">🏫 DPS School</span>
+        <span class="ptag board">📋 CBSE Board</span>
+        <span class="ptag city">📍 Gujarat</span>
+        <span class="ptag rank">🏆 Rank #12</span>
+      </div>
+    </div>
+    <div class="profile-right">
+      <button class="pbtn primary" onclick="openEdit()">✏️ Edit Profile</button>
+      <button class="pbtn secondary" onclick="shareProfile()">🔗 Share</button>
+    </div>
+  </div>
+</div>
+
+<!-- QUICK STATS -->
+<div class="qstats">
+  <div class="qs"><div class="qs-num" style="color:#46d369">847</div><div class="qs-label">Total Score</div><div class="qs-sub">↑ +42 this week</div></div>
+  <div class="qs"><div class="qs-num" style="color:#54b9c5">23</div><div class="qs-label">Tests Done</div><div class="qs-sub">3 this week</div></div>
+  <div class="qs"><div class="qs-num" style="color:var(--red)">78%</div><div class="qs-label">Avg Score</div><div class="qs-sub">↑ +5% vs last month</div></div>
+  <div class="qs"><div class="qs-num" style="color:var(--gold)">7</div><div class="qs-label">Day Streak</div><div class="qs-sub">🔥 Keep going!</div></div>
+  <div class="qs"><div class="qs-num" style="color:#ff8888">42</div><div class="qs-label">Chapters Done</div><div class="qs-sub">of 81 total</div></div>
+</div>
+
+<!-- BODY -->
+<div class="body">
+
+  <!-- LEFT -->
+  <div class="main">
+    <div class="tabs">
+      <div class="tab on" onclick="setTab(this,'overview')">Overview</div>
+      <div class="tab" onclick="setTab(this,'achievements')">🏅 Achievements</div>
+      <div class="tab" onclick="setTab(this,'activity')">📅 Activity</div>
+      <div class="tab" onclick="setTab(this,'tests')">📝 Test History</div>
+    </div>
+
+    <!-- OVERVIEW -->
+    <div id="tab-overview">
+      <!-- Subject Progress -->
+      <div class="sec">
+        <div class="sec-title">📊 Progress by Subject</div>
+        <div class="subj-prog" id="subjProg"></div>
+      </div>
+
+      <!-- Activity Heatmap -->
+      <div class="sec">
+        <div class="sec-title">📅 Study Activity — Last 6 Months</div>
+        <div class="hm-months" id="hmMonths"></div>
+        <div class="heatmap" id="heatmap"></div>
+        <div class="hm-legend">
+          <span>Less</span>
+          <div class="hm-leg-cell" style="background:var(--border)"></div>
+          <div class="hm-leg-cell" style="background:rgba(229,9,20,.25)"></div>
+          <div class="hm-leg-cell" style="background:rgba(229,9,20,.5)"></div>
+          <div class="hm-leg-cell" style="background:rgba(229,9,20,.75)"></div>
+          <div class="hm-leg-cell" style="background:var(--red)"></div>
+          <span>More</span>
+        </div>
+      </div>
+
+      <!-- Recent Activity -->
+      <div class="sec">
+        <div class="sec-title">⚡ Recent Activity</div>
+        <div class="act-list" id="recentActivity"></div>
+      </div>
+    </div>
+
+    <!-- ACHIEVEMENTS -->
+    <div id="tab-achievements" style="display:none">
+      <div class="sec">
+        <div class="sec-title">🏅 Earned Badges <span style="font-size:13px;color:#666;font-weight:400">· 8 of 18 unlocked</span></div>
+        <div class="achievements-grid" id="achGrid"></div>
+      </div>
+    </div>
+
+    <!-- ACTIVITY -->
+    <div id="tab-activity" style="display:none">
+      <div class="sec">
+        <div class="sec-title">📅 Full Activity Log</div>
+        <div class="act-list" id="fullActivity"></div>
+      </div>
+    </div>
+
+    <!-- TEST HISTORY -->
+    <div id="tab-tests" style="display:none">
+      <div class="sec">
+        <div class="sec-title">📝 Test History</div>
+        <div id="testHistory"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT SIDEBAR -->
+  <div class="sidebar">
+
+    <!-- STREAK -->
+    <div class="streak-card">
+      <div style="font-size:28px;margin-bottom:4px">🔥</div>
+      <div class="streak-num">7</div>
+      <div class="streak-label">Day Study Streak</div>
+      <div class="streak-days" id="streakDays"></div>
+      <div style="font-size:11px;color:#666;margin-top:10px">Best streak: 14 days 🏆</div>
+    </div>
+
+    <!-- RANK -->
+    <div class="rank-card">
+      <div class="rc-title">Your Ranking</div>
+      <div class="rc-rank">
+        <div class="rc-rank-num">#12</div>
+        <div class="rc-info">
+          <p>Out of 1,284 students</p>
+          <span>Top 1% nationally</span>
+        </div>
+      </div>
+      <div style="font-size:12px;color:#888;margin-bottom:6px">Progress to Rank #11</div>
+      <div class="rc-prog"><div class="rc-pfill" style="width:72%"></div></div>
+      <div class="rc-next">Need 18 more points → <span style="color:#46d369">72%</span></div>
+    </div>
+
+    <!-- WEEKLY GOALS -->
+    <div class="goals-card">
+      <div class="sec-title" style="margin-bottom:16px">🎯 Weekly Goals</div>
+      <div class="goal-item">
+        <div class="goal-icon">📚</div>
+        <div class="goal-info">
+          <div class="goal-label"><span>Chapters watched</span><span>4/5</span></div>
+          <div class="goal-bar"><div class="goal-fill" style="width:80%;background:#46d369"></div></div>
+        </div>
+      </div>
+      <div class="goal-item">
+        <div class="goal-icon">📝</div>
+        <div class="goal-info">
+          <div class="goal-label"><span>Tests completed</span><span>3/3</span></div>
+          <div class="goal-bar"><div class="goal-fill" style="width:100%;background:var(--red)"></div></div>
+        </div>
+      </div>
+      <div class="goal-item">
+        <div class="goal-icon">⏱️</div>
+        <div class="goal-info">
+          <div class="goal-label"><span>Study hours</span><span>6/10h</span></div>
+          <div class="goal-bar"><div class="goal-fill" style="width:60%;background:#ffaa00"></div></div>
+        </div>
+      </div>
+      <div class="goal-item">
+        <div class="goal-icon">🔥</div>
+        <div class="goal-info">
+          <div class="goal-label"><span>Quiz questions</span><span>48/50</span></div>
+          <div class="goal-bar"><div class="goal-fill" style="width:96%;background:#54b9c5"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUICK LINKS -->
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px">
+      <div class="sec-title" style="margin-bottom:12px;font-size:13px">🔗 Quick Links</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <a href="mylist.html" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(255,255,255,.04);border-radius:6px;text-decoration:none;color:#ccc;font-size:13px;transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,.08)'" onmouseout="this.style.background='rgba(255,255,255,.04)'">📋 My List <span style="margin-left:auto;color:#555">›</span></a>
+        <a href="tests.html" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(255,255,255,.04);border-radius:6px;text-decoration:none;color:#ccc;font-size:13px;transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,.08)'" onmouseout="this.style.background='rgba(255,255,255,.04)'">📝 Take a Test <span style="margin-left:auto;color:#555">›</span></a>
+        <a href="leaderboard.html" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(255,255,255,.04);border-radius:6px;text-decoration:none;color:#ccc;font-size:13px;transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,.08)'" onmouseout="this.style.background='rgba(255,255,255,.04)'">🏆 Leaderboard <span style="margin-left:auto;color:#555">›</span></a>
+        <a href="subjects.html" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(255,255,255,.04);border-radius:6px;text-decoration:none;color:#ccc;font-size:13px;transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,.08)'" onmouseout="this.style.background='rgba(255,255,255,.04)'">📚 All Subjects <span style="margin-left:auto;color:#555">›</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT MODAL -->
+<div id="editModal">
+  <div class="em-box">
+    <div class="em-header">
+      <h3>Edit Profile</h3>
+      <button class="em-close" onclick="closeEdit()">✕</button>
+    </div>
+    <div class="em-body">
+      <div class="em-field"><label>Display Name</label><input type="text" id="eName" placeholder="Your name"></div>
+      <div class="em-field"><label>Bio</label><textarea id="eBio" placeholder="Tell others about yourself…"></textarea></div>
+      <div class="em-field"><label>School</label><input type="text" id="eSchool" placeholder="Your school name"></div>
+      <div class="em-field"><label>City</label><input type="text" id="eCity" placeholder="Your city"></div>
+      <div class="em-field">
+        <label>Avatar Emoji</label>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px" id="emojiPicker">
+          🧑‍🎓👩‍🎓🧑‍💻👩‍💻🧑‍🔬👩‍🔬🦸‍♂️🦸‍♀️🧙‍♂️🧙‍♀️
+        </div>
+      </div>
+    </div>
+    <div class="em-footer">
+      <button class="em-btn cancel" onclick="closeEdit()">Cancel</button>
+      <button class="em-btn save" onclick="saveProfile()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ═══════════ DATA ═══════════
+const SUBJECT_PROGRESS = [
+  {label:'Physics',icon:'⚛️',pct:42,color:'#0a5ea8'},
+  {label:'Chemistry',icon:'🧪',pct:28,color:'#1a8c4a'},
+  {label:'Mathematics',icon:'📐',pct:61,color:'#6b00cc'},
+  {label:'Biology',icon:'🧬',pct:35,color:'#cc4400'},
+  {label:'English',icon:'📖',pct:75,color:'#008c8c'},
+  {label:'Comp. Science',icon:'💻',pct:55,color:'#005c8c'},
+];
+
+const ACHIEVEMENTS = [
+  {icon:'🏆',title:'First Test',desc:'Completed your very first test',date:'Jan 15',ring:'gold',locked:false},
+  {icon:'🔥',title:'7 Day Streak',desc:'Studied 7 days in a row',date:'Feb 2',ring:'gold',locked:false},
+  {icon:'⚡',title:'Speed Demon',desc:'Completed a test in under 10 mins',date:'Jan 28',ring:'silver',locked:false},
+  {icon:'💯',title:'Perfect Score',desc:'Got 100% on a quiz',date:'Feb 8',ring:'gold',locked:false},
+  {icon:'📚',title:'Bookworm',desc:'Watched 20 chapters',date:'Feb 10',ring:'silver',locked:false},
+  {icon:'🧪',title:'Chem Wizard',desc:'Aced all Chemistry quizzes',date:'Jan 30',ring:'bronze',locked:false},
+  {icon:'🌟',title:'All Rounder',desc:'Attempted all 6 subjects',date:'Feb 5',ring:'silver',locked:false},
+  {icon:'🎯',title:'Sharp Shooter',desc:'5 correct answers in a row',date:'Feb 12',ring:'bronze',locked:false},
+  {icon:'🚀',title:'Rocket Start',desc:'Scored 90%+ on first attempt',date:'',ring:'locked',locked:true},
+  {icon:'👑',title:'Top 10',desc:'Reach top 10 on leaderboard',date:'',ring:'locked',locked:true},
+  {icon:'💎',title:'Diamond',desc:'Complete all chapters',date:'',ring:'locked',locked:true},
+  {icon:'🌙',title:'Night Owl',desc:'Study after midnight',date:'',ring:'locked',locked:true},
+];
+
+const ACTIVITY = [
+  {icon:'📝',title:'Completed Physics Full Test',meta:'Score: 82% · 30 questions · 55 mins',badge:'82%',badgeCls:'ab-green',time:'2 hours ago'},
+  {icon:'▶️',title:'Watched: Semiconductor Electronics',meta:'Physics Ch.14 · 45 mins watched',badge:'Ch.14',badgeCls:'ab-blue',time:'3 hours ago'},
+  {icon:'🏆',title:'Moved up to Rank #12',meta:'Leaderboard · +3 positions',badge:'↑ #12',badgeCls:'ab-gold',time:'Yesterday'},
+  {icon:'✅',title:'Completed: Relations & Functions',meta:'Maths Ch.1 · 100% progress',badge:'Done',badgeCls:'ab-green',time:'Yesterday'},
+  {icon:'📝',title:'Completed Biology Quick Test',meta:'Score: 88% · 15 questions · 22 mins',badge:'88%',badgeCls:'ab-green',time:'2 days ago'},
+  {icon:'▶️',title:'Watched: Ray Optics',meta:'Physics Ch.9 · 85% complete',badge:'85%',badgeCls:'ab-blue',time:'2 days ago'},
+  {icon:'🔥',title:'Earned: 7 Day Streak Badge',meta:'Achievement unlocked!',badge:'🏅',badgeCls:'ab-gold',time:'2 days ago'},
+  {icon:'▶️',title:'Watched: Solutions',meta:'Chemistry Ch.2 · 50% complete',badge:'50%',badgeCls:'ab-blue',time:'3 days ago'},
+];
+
+const TEST_HISTORY = [
+  {icon:'⚛️',title:'Physics Full Test',score:82,total:30,correct:24,date:'Today',time:'55 min',grade:'A'},
+  {icon:'🧬',title:'Biology Quick Test',score:88,total:15,correct:13,date:'Yesterday',time:'22 min',grade:'A'},
+  {icon:'🌟',title:'Mixed Easy Quiz',score:95,total:20,correct:19,date:'3 days ago',time:'18 min',grade:'A+'},
+  {icon:'🧪',title:'Chemistry Full Test',score:72,total:30,correct:21,date:'1 week ago',time:'58 min',grade:'B'},
+  {icon:'📐',title:'Maths Full Test',score:65,total:25,correct:16,date:'1 week ago',time:'88 min',grade:'C'},
+  {icon:'⚛️',title:'Physics Full Test',score:74,total:30,correct:22,date:'2 weeks ago',time:'60 min',grade:'B'},
+];
+
+// ═══════════ RENDER SUBJECT PROGRESS ═══════════
+function renderSubjProg() {
+  document.getElementById('subjProg').innerHTML = SUBJECT_PROGRESS.map(s=>`
+    <div class="sp-row">
+      <div class="sp-icon">${s.icon}</div>
+      <div class="sp-label">${s.label}</div>
+      <div class="sp-bar"><div class="sp-fill" style="width:${s.pct}%;background:${s.color}"></div></div>
+      <div class="sp-pct" style="color:${s.color}">${s.pct}%</div>
+    </div>`).join('');
+}
+
+// ═══════════ HEATMAP ═══════════
+function renderHeatmap() {
+  const cells = document.getElementById('heatmap');
+  const months = document.getElementById('hmMonths');
+  const days = 26 * 7; // ~6 months
+  const today = new Date();
+  const data = [];
+  for (let i = days-1; i >= 0; i--) {
+    const d = new Date(today);
+    d.setDate(d.getDate() - i);
+    const rng = Math.random();
+    const activity = rng > 0.45 ? (rng > 0.8 ? (rng > 0.93 ? 4 : 3) : 2) : (rng > 0.28 ? 1 : 0);
+    const labels = ['','Watched 1 video','Watched 2 videos','Took a test','Perfect day! 🔥'];
+    data.push({date:d.toDateString(), level:activity, label:labels[activity]||'No activity'});
+  }
+  cells.innerHTML = data.map(d=>`
+    <div class="hm-cell ${d.level>0?'l'+d.level:''}" data-tip="${d.date}: ${d.label}" title="${d.date}: ${d.label}"></div>`).join('');
+
+  // month labels
+  const mNames = ['Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar'];
+  months.innerHTML = mNames.slice(0,7).map(m=>`<span>${m}</span>`).join('');
+}
+
+// ═══════════ RENDER ACTIVITY ═══════════
+function renderActivity(id, items) {
+  document.getElementById(id).innerHTML = items.map(a=>`
+    <div class="act-item">
+      <div class="act-icon">${a.icon}</div>
+      <div class="act-info">
+        <div class="act-title">${a.title}</div>
+        <div class="act-meta">${a.meta} · <span style="color:#555">${a.time}</span></div>
+      </div>
+      <div class="act-badge ${a.badgeCls}">${a.badge}</div>
+    </div>`).join('');
+}
+
+// ═══════════ RENDER ACHIEVEMENTS ═══════════
+function renderAchievements() {
+  document.getElementById('achGrid').innerHTML = ACHIEVEMENTS.map(a=>`
+    <div class="ach ${a.locked?'locked':''}">
+      <div class="ach-ring ${a.ring}">
+        <span style="font-size:28px">${a.icon}</span>
+      </div>
+      <div class="ach-title">${a.title}</div>
+      <div class="ach-desc">${a.desc}</div>
+      ${!a.locked?`<div class="ach-date">Earned ${a.date}</div>`:'<div class="ach-date">Locked 🔒</div>'}
+    </div>`).join('');
+}
+
+// ═══════════ RENDER TEST HISTORY ═══════════
+function renderTestHistory() {
+  document.getElementById('testHistory').innerHTML = TEST_HISTORY.map(t=>{
+    const cls = t.score>=80?'ab-green':t.score>=60?'ab-blue':'ab-red';
+    return `<div class="act-item" style="margin-bottom:10px">
+      <div class="act-icon">${t.icon}</div>
+      <div class="act-info">
+        <div class="act-title">${t.title}</div>
+        <div class="act-meta">${t.correct}/${t.total} correct · ${t.time} · ${t.date}</div>
+      </div>
+      <div style="text-align:right">
+        <div class="act-badge ${cls}" style="margin-bottom:4px">${t.score}%</div>
+        <div style="font-size:11px;color:#666">Grade ${t.grade}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ═══════════ STREAK DAYS ═══════════
+function renderStreak() {
+  const days = ['M','T','W','T','F','S','S'];
+  const done = [true,true,true,true,true,true,false]; // last 7 days
+  document.getElementById('streakDays').innerHTML = days.map((d,i)=>`
+    <div class="sd ${done[i]?'done':''} ${i===5?'today':''}">
+      <span>${done[i]?'✓':d}</span>
+      <span class="sd-day">${d}</span>
+    </div>`).join('');
+}
+
+// ═══════════ TABS ═══════════
+function setTab(el, tab) {
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  el.classList.add('on');
+  ['overview','achievements','activity','tests'].forEach(t=>{
+    document.getElementById('tab-'+t).style.display = t===tab?'block':'none';
+  });
+}
+
+// ═══════════ EDIT PROFILE ═══════════
+function openEdit() {
+  document.getElementById('eName').value = document.getElementById('profileName').textContent;
+  document.getElementById('eBio').value = document.getElementById('profileBio').textContent;
+  document.getElementById('editModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  // emoji picker
+  const emojis = ['🧑‍🎓','👩‍🎓','🧑‍💻','👩‍💻','🧑‍🔬','👩‍🔬','🦸','🧙','🎓','⭐'];
+  document.getElementById('emojiPicker').innerHTML = emojis.map(e=>`
+    <span style="font-size:26px;cursor:pointer;padding:4px;border-radius:6px;transition:background .15s"
+      onclick="pickEmoji('${e}')"
+      onmouseover="this.style.background='rgba(255,255,255,.1)'"
+      onmouseout="this.style.background=''">${e}</span>`).join('');
+}
+
+function closeEdit() {
+  document.getElementById('editModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+let selectedEmoji = 'S';
+function pickEmoji(e) {
+  selectedEmoji = e;
+  document.getElementById('avatarEl').childNodes[0].textContent = e;
+  showToast('Avatar updated to '+e);
+}
+
+function saveProfile() {
+  const name = document.getElementById('eName').value.trim();
+  const bio = document.getElementById('eBio').value.trim();
+  if (name) {
+    document.getElementById('profileName').textContent = name;
+    document.getElementById('profileHandle').textContent = '@'+name.toLowerCase().replace(/\s/g,'')+ ' · Class 12 Student';
+    document.querySelector('.nav-av').textContent = name.charAt(0).toUpperCase();
+    document.getElementById('avatarEl').childNodes[0].textContent = name.charAt(0).toUpperCase();
+  }
+  if (bio) document.getElementById('profileBio').textContent = bio;
+  closeEdit();
+  showToast('✅ Profile saved!');
+}
+
+document.getElementById('editModal').addEventListener('click', e=>{
+  if(e.target===document.getElementById('editModal')) closeEdit();
+});
+
+// ═══════════ SHARE ═══════════
+function shareProfile() {
+  navigator.clipboard&&navigator.clipboard.writeText(location.href).catch(()=>{});
+  showToast('🔗 Profile link copied!');
+}
+
+// ═══════════ TOAST ═══════════
+let tt;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(tt);
+  tt = setTimeout(()=>t.classList.remove('show'), 2500);
+}
+
+// ═══════════ INIT ═══════════
+renderSubjProg();
+renderHeatmap();
+renderActivity('recentActivity', ACTIVITY.slice(0,5));
+renderActivity('fullActivity', ACTIVITY);
+renderAchievements();
+renderTestHistory();
+renderStreak();
+</script>
+</body>
+</html>
