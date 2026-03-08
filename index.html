@@ -633,26 +633,39 @@ async function doSignup(){
   if(pw.length<8){return err('serr','Password must be at least 8 characters.');}
   setBtnLoad('sbtn',true);
   try{
-    // 1. Create Appwrite account
-    await AH.req('POST','/account',{userId:'unique()',email:em,password:pw,name:nm});
-    // 2. Create session (login)
+    err('serr','⏳ Creating account…'); document.getElementById('serr').style.display='block';
+    // 1. Create account
+    const newAcct = await AH.req('POST','/account',{userId:'unique()',email:em,password:pw,name:nm});
+    console.log('✅ Account created:', newAcct);
+    err('serr','⏳ Logging in…');
+    // 2. Create session
     const sess = await AH.req('POST','/account/sessions/email',{email:em,password:pw});
+    console.log('✅ Session created:', sess.$id);
     setSession(sess.$id);
-    // 3. Save extra user data in database
+    document.getElementById('serr').style.display='none';
+    // 3. Save to DB
     try{
-      await AH.req('POST',`/databases/${AW.databaseId}/collections/${AW.tableId}/documents`,{
+      const dbRes = await AH.req('POST',`/databases/${AW.databaseId}/collections/${AW.tableId}/documents`,{
         documentId:'unique()',
         data:{Name:nm,email:em,class:cl,progress:'{}',mylist:'[]',testscores:'[]',streak:0,totalscore:0}
       }, sess.$id);
-    }catch(e2){console.warn('DB save:',e2);}
+      window._dbDocId = dbRes.$id;
+      console.log('✅ DB saved:', dbRes.$id);
+    }catch(e2){console.warn('⚠️ DB save failed (non-critical):', e2.message||e2);}
     _user={name:nm,email:em};
     localStorage.setItem('gk_user',JSON.stringify(_user));
     showToast('🎉 Account created! Welcome, '+nm+'!');
     enterApp(nm,em);
   }catch(e){
-    const msgs={'user_already_exists':'This email is already registered. Try signing in.',
-      'general_argument_invalid':'Invalid email or password format.'};
-    err('serr', msgs[e.type]||e.message||'Sign up failed. Please try again.');
+    console.error('❌ Signup error:', e);
+    const msgs={
+      'user_already_exists':'This email is already registered. Try signing in.',
+      'general_argument_invalid':'Invalid email or password format.',
+      'user_invalid_credentials':'Invalid credentials.',
+      'general_unknown':'Server error. Check your Appwrite platform settings.'
+    };
+    err('serr', msgs[e.type] || e.message || JSON.stringify(e));
+    document.getElementById('serr').style.display='block';
   }
   setBtnLoad('sbtn',false,'Create Account');
 }
