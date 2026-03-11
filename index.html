@@ -335,15 +335,14 @@ footer{background:#141414;border-top:1px solid #222;padding:48px 60px 34px}
       <li><a href="leaderboard.html">Leaderboard</a></li>
     </ul>
     <div class="nright">
-      <!-- GRADE SELECTOR -->
       <div class="grade-wrap">
-        <button class="grade-btn" onclick="toggleGradeMenu()">
-          📚 Grade <span class="grade-badge" id="gradeLabel">12</span>
-          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        <button class="grade-btn" onclick="toggleGradeMenu()" style="display:flex;align-items:center;gap:6px;padding:5px 12px;border:1px solid rgba(255,255,255,.3);border-radius:4px;background:rgba(255,255,255,.1);color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit">
+          📚 Grade <span id="gradeLabel" style="background:#e50914;color:#fff;font-size:10px;font-weight:800;padding:1px 7px;border-radius:10px;margin-left:2px">12</span>
+          ▾
         </button>
-        <div class="grade-menu" id="gradeMenu">
-          <div class="grade-menu-title">Select Your Grade</div>
-          <div class="grade-grid" id="gradeGrid"></div>
+        <div id="gradeMenu" style="display:none;position:absolute;top:50px;background:#181818;border:1px solid #333;border-radius:8px;padding:10px;min-width:280px;z-index:999">
+          <div style="font-size:10px;color:#555;letter-spacing:1.5px;text-transform:uppercase;padding:4px 6px 10px">Select Your Grade</div>
+          <div id="gradeGrid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px"></div>
         </div>
       </div>
       <!-- SEARCH WITH DROPDOWN -->
@@ -1556,6 +1555,25 @@ function shareNow(title){
 }
 function addList(){if(window._currentModalItem)saveMyList(window._currentModalItem);else showToast('✅ Added to My List!')}
 window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('sc',scrollY>60));
+function toggleGradeMenu(){
+  const m=document.getElementById('gradeMenu');
+  m.style.display=m.style.display==='none'?'block':'none';
+}
+document.addEventListener('DOMContentLoaded',function(){
+  const grid=document.getElementById('gradeGrid');
+  if(!grid)return;
+  for(let g=1;g<=12;g++){
+    const d=document.createElement('div');
+    d.style.cssText='padding:10px 4px;text-align:center;border-radius:6px;cursor:pointer;border:1px solid #333;';
+    d.innerHTML='<span style="font-size:17px;font-weight:800;display:block;color:#fff">'+g+'</span><span style="font-size:9px;color:#666">Grade</span>';
+    d.onclick=(function(gr){return function(){
+      document.getElementById('gradeLabel').textContent=gr;
+      document.getElementById('gradeMenu').style.display='none';
+      alert('Grade '+gr+' selected! Videos coming soon.');
+    }})(g);
+    grid.appendChild(d);
+  }
+});
 </script>
 </body>
 </html>
