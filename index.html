@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<!-- GURUKUL v3.0 - grades 1-12, no hover, fixed nav -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gurukul</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -170,46 +171,14 @@ html,body{background:#000;color:#fff;font-family:'Inter',sans-serif;overflow-x:h
 }
 
 /* The visible part (thumb) */
-.cin{border-radius:8px 8px 0 0;overflow:hidden;background:var(--card);position:relative}
-.ct{width:100%;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-.ctbg{position:absolute;inset:0}
-.ctscrim{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.6) 0%,transparent 60%);z-index:2}
-.ctc{position:relative;z-index:3;text-align:center;pointer-events:none}
-.ctc .emi{font-size:42px;display:block}
-.ctc .chl{font-size:10px;color:rgba(255,255,255,.88);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-top:4px;display:block}
-.cstag{position:absolute;top:8px;left:8px;z-index:4;font-size:8px;font-weight:700;color:rgba(255,255,255,.75);letter-spacing:1.5px;text-transform:uppercase;background:rgba(0,0,0,.5);padding:2px 6px;border-radius:3px}
-.cpbar{height:3px;background:#555}
-.cpfill{height:100%;background:var(--red)}
-
 /* Play button overlay - hidden always */
 .cplay-ov{display:none}
-
-/* Always visible bottom info panel */
-.cexp{
-  background:var(--card);
-  padding:10px 12px 12px;
-  border-radius:0 0 8px 8px;
-}
-
-/* action buttons row */
+/* old card classes kept for compat but no hover */
+.cin{border-radius:8px 8px 0 0;overflow:hidden;background:var(--card);position:relative}
+.cexp{background:var(--card);padding:10px 12px 12px;border-radius:0 0 8px 8px}
 .cacts{display:flex;align-items:center;gap:6px;margin-bottom:8px}
-.ca{
-  width:30px;height:30px;border-radius:50%;
-  border:1.5px solid rgba(255,255,255,.45);
-  background:rgba(0,0,0,.4);color:#fff;
-  display:flex;align-items:center;justify-content:center;
-  cursor:pointer;transition:all .15s;flex-shrink:0;
-}
-.ca:hover{border-color:#fff;background:rgba(255,255,255,.15);transform:scale(1.1)}
-.ca.play{background:#fff;border-color:#fff;color:#000;width:34px;height:34px}.ca.play:hover{background:rgba(255,255,255,.85)}
-.caml{margin-left:auto}
-.ca{position:relative}
-.ca .tip{
-  position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);
-  background:#fff;color:#000;font-size:10px;font-weight:700;padding:3px 7px;border-radius:3px;
-  white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s;
-}
-.ca:hover .tip{opacity:1}
+.ca{width:30px;height:30px;border-radius:50%;border:1.5px solid rgba(255,255,255,.45);background:rgba(0,0,0,.4);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+.ca.play{background:#fff;border-color:#fff;color:#000;width:34px;height:34px}
 .cn{font-size:13px;font-weight:700;margin-bottom:6px;line-height:1.35}
 .ctags{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
 .tg{color:#46d369;font-weight:700;font-size:11px}
@@ -258,7 +227,7 @@ footer{background:#141414;border-top:1px solid #222;padding:48px 60px 34px}
   .nav{padding:0 18px}.nlinks{display:none}
   .hero{padding:0 18px 90px}
   .row,.stabs{padding:0 18px;margin-left:0;margin-right:0}
-  .card{flex:0 0 185px}.card:hover{transform:scale(1.14) translateY(-6px)}
+  .card{flex:0 0 185px}
   .mbody{grid-template-columns:1fr}
   .abox{padding:34px 26px;margin:20px 16px}
   footer{padding:36px 20px}
@@ -335,14 +304,15 @@ footer{background:#141414;border-top:1px solid #222;padding:48px 60px 34px}
       <li><a href="leaderboard.html">Leaderboard</a></li>
     </ul>
     <div class="nright">
+      <!-- GRADE SELECTOR -->
       <div class="grade-wrap">
-        <button class="grade-btn" onclick="toggleGradeMenu()" style="display:flex;align-items:center;gap:6px;padding:5px 12px;border:1px solid rgba(255,255,255,.3);border-radius:4px;background:rgba(255,255,255,.1);color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit">
-          📚 Grade <span id="gradeLabel" style="background:#e50914;color:#fff;font-size:10px;font-weight:800;padding:1px 7px;border-radius:10px;margin-left:2px">12</span>
-          ▾
+        <button class="grade-btn" onclick="toggleGradeMenu()">
+          📚 Grade <span class="grade-badge" id="gradeLabel">12</span>
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
-        <div id="gradeMenu" style="display:none;position:absolute;top:50px;background:#181818;border:1px solid #333;border-radius:8px;padding:10px;min-width:280px;z-index:999">
-          <div style="font-size:10px;color:#555;letter-spacing:1.5px;text-transform:uppercase;padding:4px 6px 10px">Select Your Grade</div>
-          <div id="gradeGrid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px"></div>
+        <div class="grade-menu" id="gradeMenu">
+          <div class="grade-menu-title">Select Your Grade</div>
+          <div class="grade-grid" id="gradeGrid"></div>
         </div>
       </div>
       <!-- SEARCH WITH DROPDOWN -->
@@ -1071,6 +1041,7 @@ function buildAllRows(){
     const crowEl = document.getElementById(crowId);
     (D[s]||[]).forEach(c=>{ c.subj=s; crowEl.appendChild(mkCard(c)); });
   });
+  rebuildSearchIndex();
 }
 
 // ═══════════ INTRO → AUTH ═══════════
@@ -1427,10 +1398,13 @@ inp.addEventListener('focus',()=>{box.classList.add('focused');if(inp.value.trim
 inp.addEventListener('input',()=>doSearch(inp.value));
 document.addEventListener('click',e=>{if(!document.querySelector('.srchwrap').contains(e.target)){drop.classList.remove('open');box.classList.remove('focused')}});
 
-// All chapters flat array for search
+// All chapters flat array for search — rebuilt on grade switch
 let allChaps=[];
-for(const[s,arr] of Object.entries(D))
-  arr.forEach(c=>allChaps.push({...c,subj:s}));
+function rebuildSearchIndex(){
+  allChaps=[];
+  for(const[s,arr] of Object.entries(D))
+    arr.forEach(c=>allChaps.push({...c,subj:s}));
+}
 
 let recentSearches=[];
 
@@ -1555,25 +1529,6 @@ function shareNow(title){
 }
 function addList(){if(window._currentModalItem)saveMyList(window._currentModalItem);else showToast('✅ Added to My List!')}
 window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('sc',scrollY>60));
-function toggleGradeMenu(){
-  const m=document.getElementById('gradeMenu');
-  m.style.display=m.style.display==='none'?'block':'none';
-}
-document.addEventListener('DOMContentLoaded',function(){
-  const grid=document.getElementById('gradeGrid');
-  if(!grid)return;
-  for(let g=1;g<=12;g++){
-    const d=document.createElement('div');
-    d.style.cssText='padding:10px 4px;text-align:center;border-radius:6px;cursor:pointer;border:1px solid #333;';
-    d.innerHTML='<span style="font-size:17px;font-weight:800;display:block;color:#fff">'+g+'</span><span style="font-size:9px;color:#666">Grade</span>';
-    d.onclick=(function(gr){return function(){
-      document.getElementById('gradeLabel').textContent=gr;
-      document.getElementById('gradeMenu').style.display='none';
-      alert('Grade '+gr+' selected! Videos coming soon.');
-    }})(g);
-    grid.appendChild(d);
-  }
-});
 </script>
 </body>
 </html>
