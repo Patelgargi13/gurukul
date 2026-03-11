@@ -145,74 +145,69 @@ html,body{background:#000;color:#fff;font-family:'Inter',sans-serif;overflow-x:h
 .slbtn{position:absolute;top:0;bottom:0;width:55px;background:rgba(20,20,20,.75);border:none;color:#fff;font-size:30px;cursor:pointer;z-index:20;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s}
 .slwrap:hover .slbtn{opacity:1}
 .slbtn.l{left:0;border-radius:0 5px 5px 0}.slbtn.r{right:0;border-radius:5px 0 0 5px}
-.crow{display:flex;gap:6px;overflow-x:auto;padding:14px 4px 60px;scroll-behavior:smooth;scrollbar-width:none}
+.crow{display:flex;gap:10px;overflow-x:auto;padding:14px 4px 20px;scroll-behavior:smooth;scrollbar-width:none}
 .crow::-webkit-scrollbar{display:none}
 
-/* ══ CARD — fixed hover expand ══ */
+/* ══ CARD — always visible, no hover expand ══ */
 .card{
-  flex:0 0 270px;border-radius:6px;cursor:pointer;
+  flex:0 0 200px;border-radius:8px;cursor:pointer;
   position:relative;z-index:1;
-  /* KEY: give room below for the expand panel */
-  margin-bottom:0;
-  transition:transform .3s ease, z-index 0s .3s;
+  background:var(--card);
+  transition:transform .2s ease, box-shadow .2s ease;
+  overflow:hidden;
 }
 .card:hover{
-  transform:scale(1.22) translateY(-10px);
-  z-index:200;
-  transition:transform .3s ease .18s, z-index 0s .18s;
+  transform:translateY(-4px);
+  box-shadow:0 12px 40px rgba(0,0,0,.8);
 }
-.card:first-child:hover{transform:scale(1.22) translateY(-10px) translateX(12%)}
-.card:last-child:hover{transform:scale(1.22) translateY(-10px) translateX(-12%)}
 
 /* The visible part (thumb) */
-.cin{border-radius:6px;overflow:hidden;background:var(--card);box-shadow:0 4px 20px rgba(0,0,0,.5);transition:box-shadow .3s;position:relative}
-.card:hover .cin{box-shadow:0 20px 60px rgba(0,0,0,.95),0 0 0 1px rgba(255,255,255,.12)}
+.cin{border-radius:8px 8px 0 0;overflow:hidden;background:var(--card);position:relative}
 .ct{width:100%;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
 .ctbg{position:absolute;inset:0}
-.ctscrim{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.72) 0%,transparent 55%);z-index:2}
+.ctscrim{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.6) 0%,transparent 60%);z-index:2}
 .ctc{position:relative;z-index:3;text-align:center;pointer-events:none}
-.ctc .emi{font-size:52px;display:block}
-.ctc .chl{font-size:11px;color:rgba(255,255,255,.88);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-top:5px;display:block}
-.cstag{position:absolute;bottom:9px;left:11px;z-index:4;font-size:9px;font-weight:700;color:rgba(255,255,255,.75);letter-spacing:1.5px;text-transform:uppercase}
+.ctc .emi{font-size:42px;display:block}
+.ctc .chl{font-size:10px;color:rgba(255,255,255,.88);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-top:4px;display:block}
+.cstag{position:absolute;top:8px;left:8px;z-index:4;font-size:8px;font-weight:700;color:rgba(255,255,255,.75);letter-spacing:1.5px;text-transform:uppercase;background:rgba(0,0,0,.5);padding:2px 6px;border-radius:3px}
 .cpbar{height:3px;background:#555}
 .cpfill{height:100%;background:var(--red)}
 
-/* ── Expand panel: absolutely positioned BELOW the card thumb ── */
-.cexp{
-  position:absolute;
-  top:100%; /* sits right below .cin */
-  left:0;right:0;
-  background:var(--card);
-  border-radius:0 0 6px 6px;
-  padding:14px 14px 16px;
-  /* hidden by default */
-  opacity:0;
-  pointer-events:none;
-  transform:translateY(-4px);
-  transition:opacity .25s ease .18s, transform .25s ease .18s;
-  z-index:201;
-  box-shadow:0 22px 50px rgba(0,0,0,.9);
-  min-width:100%;
+/* Play button overlay on thumb */
+.cplay-ov{
+  position:absolute;inset:0;z-index:5;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:opacity .2s;background:rgba(0,0,0,.3);
 }
-.card:hover .cexp{
-  opacity:1;
-  pointer-events:all;
-  transform:translateY(0);
+.card:hover .cplay-ov{opacity:1}
+.cplay-btn{
+  width:44px;height:44px;border-radius:50%;
+  background:rgba(255,255,255,.95);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 20px rgba(0,0,0,.5);
+  transition:transform .15s;
+}
+.cplay-btn:hover{transform:scale(1.1)}
+
+/* Always visible bottom info panel */
+.cexp{
+  background:var(--card);
+  padding:10px 12px 12px;
+  border-radius:0 0 8px 8px;
 }
 
 /* action buttons row */
-.cacts{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.cacts{display:flex;align-items:center;gap:6px;margin-bottom:8px}
 .ca{
-  width:34px;height:34px;border-radius:50%;
-  border:2px solid rgba(255,255,255,.55);
-  background:rgba(0,0,0,.5);color:#fff;
+  width:30px;height:30px;border-radius:50%;
+  border:1.5px solid rgba(255,255,255,.45);
+  background:rgba(0,0,0,.4);color:#fff;
   display:flex;align-items:center;justify-content:center;
   cursor:pointer;transition:all .15s;flex-shrink:0;
 }
-.ca:hover{border-color:#fff;background:rgba(255,255,255,.2);transform:scale(1.12)}
-.ca.play{background:#fff;border-color:#fff;color:#000}.ca.play:hover{background:rgba(255,255,255,.82)}
+.ca:hover{border-color:#fff;background:rgba(255,255,255,.15);transform:scale(1.1)}
+.ca.play{background:#fff;border-color:#fff;color:#000;width:34px;height:34px}.ca.play:hover{background:rgba(255,255,255,.85)}
 .caml{margin-left:auto}
-/* tooltips on buttons */
 .ca{position:relative}
 .ca .tip{
   position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);
@@ -868,11 +863,15 @@ function renderRow(id,items,sp=false){
   items.forEach(item=>el.appendChild(mkCard(item,sp)));
 }
 
+function goWatch(item){
+  const idx=(D[item.subj]||[]).findIndex(c=>c.t===item.t);
+  window.location.href=`watch.html?subj=${item.subj}&idx=${idx<0?0:idx}`;
+}
+
 function mkCard(item,sp=false){
   const w=document.createElement('div');
   w.className='card';
   const hp=sp&&item.p>0;
-  const scolor=SC[item.subj]||'#333';
 
   w.innerHTML=`
     <div class="cin">
@@ -884,48 +883,48 @@ function mkCard(item,sp=false){
           <span class="chl">${item.ch}</span>
         </div>
         <div class="cstag">${(item.subj||'').toUpperCase()}</div>
+        <div class="cplay-ov">
+          <div class="cplay-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="black"><polygon points="5,3 19,12 5,21"/></svg>
+          </div>
+        </div>
       </div>
       ${hp?`<div class="cpbar"><div class="cpfill" style="width:${item.p}%"></div></div>`:''}
     </div>
     <div class="cexp">
-      <div class="cacts">
-        <div class="ca play" title="Play">
-          <span class="tip">Play</span>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="black"><polygon points="5,3 19,12 5,21"/></svg>
-        </div>
-        <div class="ca" title="Add to My List">
-          <span class="tip">My List</span>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.8"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        </div>
-        <div class="ca" title="Like">
-          <span class="tip">Like</span>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
-        </div>
-        <div class="ca caml" title="Share">
-          <span class="tip">Share</span>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-        </div>
-        <div class="ca moreinfo" title="More Info">
-          <span class="tip">More Info</span>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.8"><polyline points="6 9 12 15 18 9"/></svg>
-        </div>
-      </div>
       <div class="cn">${item.t}</div>
-      <div class="ctags">
+      <div class="ctags" style="margin-top:5px">
         <span class="tg">${item.dif}</span>
         <span class="ti"><span class="tdot"></span>${item.d}</span>
-        <span class="ti"><span class="tdot"></span>${item.ch}</span>
+      </div>
+      <div class="cacts" style="margin-top:10px;margin-bottom:0">
+        <div class="ca play" title="Play">
+          <span class="tip">Play</span>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="black"><polygon points="5,3 19,12 5,21"/></svg>
+        </div>
+        <div class="ca addlist" title="Add to My List">
+          <span class="tip">My List</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.8"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div class="ca likebtn" title="Like">
+          <span class="tip">Like</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+        </div>
+        <div class="ca caml moreinfo" title="More Info">
+          <span class="tip">More Info</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.8"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
       </div>
     </div>`;
 
   w._item=item;
-  // Wire up buttons
-  w.querySelector('.play').addEventListener('click',e=>{e.stopPropagation();showToast('▶ Playing: '+item.t)});
-  w.querySelectorAll('.ca')[1].addEventListener('click',e=>{e.stopPropagation();addList()});
-  w.querySelectorAll('.ca')[2].addEventListener('click',e=>{e.stopPropagation();showToast('👍 Liked!')});
-  w.querySelector('.caml').addEventListener('click',e=>{e.stopPropagation();shareNow(item.t)});
-  w.querySelector('.moreinfo').addEventListener('click',e=>{e.stopPropagation();openMI(item)});
-  w.addEventListener('click',()=>openMI(item));
+  // Play → go to watch page
+  w.querySelector('.play').addEventListener('click',e=>{e.stopPropagation();goWatch(item);});
+  w.querySelector('.cplay-ov').addEventListener('click',e=>{e.stopPropagation();goWatch(item);});
+  w.querySelector('.addlist').addEventListener('click',e=>{e.stopPropagation();window._currentModalItem=item;addList();});
+  w.querySelector('.likebtn').addEventListener('click',e=>{e.stopPropagation();showToast('👍 Liked: '+item.t);});
+  w.querySelector('.moreinfo').addEventListener('click',e=>{e.stopPropagation();openMI(item);});
+  w.querySelector('.cin').addEventListener('click',()=>goWatch(item));
   return w;
 }
 
